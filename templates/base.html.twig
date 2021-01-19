@@ -2,12 +2,74 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}Filipova osobní stránka{% endblock %}</title>
+        <!--<link rel="stylesheet" type="text/css" href="{{'..\..\vendor\twbs\bootstrap\scss\bootstrap.scss'}}">-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
         {% block stylesheets %}{% endblock %}
 
         {% block javascripts %}{% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+        <header>{% block navbar %}
+            <nav class="navbar navbar-expand navbar-dark flex-column flex-md-row" style="background-color: #343a40;" role="navigation" id="main_navbar">
+                <a class="navbar-brand" href="https://www.sustik.cz">Filip Šustík</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarText">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item" id="nav_home">
+                            <a class="nav-link" href="{{path('home')}}">Domů</a>
+                        </li>
+                        <li class="nav-item" id="nav_about">
+                            <a class="nav-link" href="{{path('about')}}">O mně</a>
+                        </li>
+                        <li class="nav-item" id="nav_projects">
+                            <a class="nav-link" href="{{path('projects')}}">Projekty</a>
+                        </li>
+                    </ul>
+            
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Přihlásit
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            
+                                    <form>
+                                    <div class="form-group">
+                                    <label for="uname">Uživatelské jméno</label>
+                                    <input type="text" class="form-control" id="uname" aria-describedby="username" placeholder="Uživatelské jméno">
+                                    </div>
+                                    <div class="form-group">
+                                    <label for="pass">Heslo</label>
+                                    <input type="password" class="form-control" id="pass" placeholder="Heslo">
+                                    </div>
+                                    <div class="form-group form-check">
+                                    <input type="checkbox" class="form-check-input" id="remember">
+                                    <label class="form-check-label" for="remember">Zapamatovat?</label>
+                                    </div>
+                                    <div class="dropdown-item" onclick="login()" id="login_btn">Přihlásit</div>
+                                    </form>
+            
+                        </div>
+                    </div>
+            
+            
+                </div>
+            </nav>
+            
+            <!-- MODAL -->
+            <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="ModalTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg" role="document" id="modal_inside">
+                </div>
+            </div>
+            {% endblock %}
+        </header>
+        
+
+        <div class="container-fluid">
+            {% block body %}{% endblock %}
+        </div>
     </body>
+    <!--<script type="text/javascript" src="{{'..\..\vendor\twbs\bootstrap\js\index.esm.js'}}"></script>-->
 </html>
