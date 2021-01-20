@@ -14,7 +14,7 @@ class MainController extends AbstractController
      */
     public function index(): Response
     {
-        return $this->render('home/index.html.twig');
+        return $this->render('main/index.html.twig');
     }
 
     /**
@@ -22,7 +22,7 @@ class MainController extends AbstractController
      */
     public function about(): Response
     {
-        return $this->render('home/index.html.twig');
+        return $this->render('main/index.html.twig');
     }
 
 
@@ -44,6 +44,6 @@ class MainController extends AbstractController
         
         dump($request);//nefunguje sračka
         $name = $request->get('name');
-        return $this->render('home/custom.html.twig', ['name' => $name]);
+        return $this->render('main/custom.html.twig', ['name' => $name]);
     }
 }
