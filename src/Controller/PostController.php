@@ -4,11 +4,12 @@ namespace App\Controller;
 
 use App\Entity\Post;
 use App\Form\PostType;
+use App\Services\FileUploader;
 use App\Repository\PostRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
      * @Route("/post", name="post.")
@@ -26,6 +27,7 @@ class PostController extends AbstractController
             'posts' => $posts,
         ]);
     }
+
     /**
      * @Route("/show/{id}", name="show")
      */
@@ -35,10 +37,11 @@ class PostController extends AbstractController
             'post' => $post,
         ]);
     }
+
     /**
      * @Route("/create", name="create")
      */
-    public function create(Request $request){
+    public function create(Request $request, FileUploader $fileUploader){
         //vytvořit příspěvek
         $post = new Post(); //Ctrl + Space to choose class
         $form = $this->createForm(PostType::class, $post);
@@ -48,6 +51,11 @@ class PostController extends AbstractController
         if($form->isSubmitted()){
             //entity manager
             $em = $this->getDoctrine()->getManager();
+            $file = $request->files->get('post')['attachment'];
+            if($file){
+                $filename = $fileUploader->uploadFile($file);
+                $post->setImage($filename);
+            }
             $em->persist($post);
             $em->flush();
 
