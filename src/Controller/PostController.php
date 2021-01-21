@@ -38,17 +38,22 @@ class PostController extends AbstractController
     /**
      * @Route("/create", name="create")
      */
-    public function create(){
+    public function create(Request $request){
         //vytvořit příspěvek
         $post = new Post(); //Ctrl + Space to choose class
         $form = $this->createForm(PostType::class, $post);
 
+        $form->handleRequest($request);
 
+        if($form->isSubmitted()){
+            //entity manager
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($post);
+            $em->flush();
 
-        //entity manager
-        // $em = $this->getDoctrine()->getManager();
-        // $em->persist($post);
-        // $em->flush();
+            $this->addFlash('success', 'Příspěvek byl vytvořen.');
+            return $this->redirect($this->generateUrl('post.index'));
+        }
 
         //response 
         return $this->render(('post/create.html.twig'), [
@@ -64,7 +69,7 @@ class PostController extends AbstractController
         $em->remove($post);
         $em->flush();
 
-        $this->addFlash('success', 'Záznam byl odstraněn');
+        $this->addFlash('success', 'Příspěvek byl odstraněn');
 
         return $this->redirect($this->generateUrl('post.index'));
     }
